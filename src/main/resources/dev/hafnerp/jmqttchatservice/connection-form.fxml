@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:controller="dev.hafnerp.jmqttchatservice.LoginController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="118.0" prefWidth="596.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="118.0" prefWidth="596.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.hafnerp.jmqttchatservice.LoginController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -19,7 +19,7 @@
    <children>
       <TextField fx:id="text_username" promptText="Username" />
       <TextField fx:id="text_password" promptText="Password" GridPane.rowIndex="1" />
-      <TextField fx:id="text_host" promptText="host" GridPane.rowIndex="2" />
+      <TextField fx:id="text_host" promptText="host" text="tcp://localhost/" GridPane.rowIndex="2" />
       <Button fx:id="button_login" mnemonicParsing="false" onAction="#onLogInPressed" text="Login" GridPane.rowIndex="3" />
    </children>
 </GridPane>

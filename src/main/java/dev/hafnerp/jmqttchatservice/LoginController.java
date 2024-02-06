@@ -7,9 +7,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 public class LoginController {
 
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport("");
+
     private MqttConnectOptions mqttConnectOptions;
+
+    private String hostName;
 
     @FXML
     private Button button_login;
@@ -29,10 +36,20 @@ public class LoginController {
         mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setUserName(text_username.getText());
         mqttConnectOptions.setPassword(text_password.getText().toCharArray());
-        String hostName = text_host.getText();
+        hostName = text_host.getText();
+
+        propertyChangeSupport.firePropertyChange("BUTTON", false, true);
     }
 
     public MqttConnectOptions getLastMqttConnectOptions() {
         return mqttConnectOptions;
+    }
+
+    public String getLastHostName() {
+        return hostName;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+        propertyChangeSupport.addPropertyChangeListener(propertyChangeListener);
     }
 }

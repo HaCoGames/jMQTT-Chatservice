@@ -7,11 +7,18 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 
 public class HelloController {
@@ -39,6 +46,49 @@ public class HelloController {
 
     @FXML
     void text_inputFieldKeyHandler(KeyEvent event) {
+
+    }
+
+    @FXML
+    void onCreateChat(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloController.class.getResource("create-chat.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            CreateChat createChat = fxmlLoader.getController();
+            createChat.setOnAddButtonListener(() -> {
+                String user = HelloApplication.getMqttConnectOptions().getUserName();
+                String currUser = createChat.getUser();
+                Chat chat = null;
+                try {
+                    chat = new Chat(
+                            new URI(HelloApplication.getHostName() + user + "/" + currUser),
+                            new URI(HelloApplication.getHostName() + currUser + "/" + user)
+                    );
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+
+                chat.connect(HelloApplication.getMqttConnectOptions());
+
+                chatListMonitor.addChat(chat);
+                list_chats.getItems().add(chat);
+
+                stage.close();
+            });
+
+            stage.setScene(scene);
+            stage.setTitle("MQTT - add chat");
+            stage.show();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void onDeleteChat(ActionEvent event) {
 
     }
 
@@ -92,7 +142,6 @@ public class HelloController {
             public void propertyChange(PropertyChangeEvent evt) {
                 String currChat = list_chats.getSelectionModel().getSelectedItem().getSubscriber().getUsername();
                 String currUser = list_chats.getSelectionModel().getSelectedItem().getPublisher().getUsername();
-                System.out.println("HelloController - Current user is: " + currUser);
                 if (
                         currChat.equals(evt.getPropertyName()) ||
                         currUser.equals(evt.getPropertyName())

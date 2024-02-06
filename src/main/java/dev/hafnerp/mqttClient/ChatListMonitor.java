@@ -1,5 +1,6 @@
 package dev.hafnerp.mqttClient;
 
+import dev.hafnerp.jmqttchatservice.HelloApplication;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
 import java.net.URI;
@@ -14,19 +15,6 @@ public class ChatListMonitor {
     }
 
     private ChatListMonitor() {
-        try {
-            Chat pridnik = new Chat(new URI("tcp://localhost/peter/pridnik"), new URI("tcp://localhost/pridnik/peter"));
-            MqttConnectOptions mqttConnectOptionsPeter = new MqttConnectOptions();
-            mqttConnectOptionsPeter.setUserName("peter");
-            mqttConnectOptionsPeter.setPassword("peter".toCharArray());
-            pridnik.connect(mqttConnectOptionsPeter);
-            chats.add(pridnik);
-
-            Chat david = new Chat(new URI("tcp://localhost/peter/david"), new URI("tcp://localhost/david/peter"));
-            david.connect(mqttConnectOptionsPeter);
-            chats.add(david);
-        }
-        catch (Exception ignore){}
     }
 
     private final ArrayList<Chat> chats = new ArrayList<>();
