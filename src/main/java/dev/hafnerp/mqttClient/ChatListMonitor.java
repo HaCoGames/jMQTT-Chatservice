@@ -1,9 +1,5 @@
 package dev.hafnerp.mqttClient;
 
-import dev.hafnerp.jmqttchatservice.HelloApplication;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-
-import java.net.URI;
 import java.util.ArrayList;
 
 public class ChatListMonitor {

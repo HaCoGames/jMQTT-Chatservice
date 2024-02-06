@@ -72,7 +72,6 @@ public class HelloController {
 
                 chat.connect(HelloApplication.getMqttConnectOptions());
 
-                chatListMonitor.addChat(chat);
                 list_chats.getItems().add(chat);
 
                 stage.close();
@@ -89,7 +88,7 @@ public class HelloController {
 
     @FXML
     void onDeleteChat(ActionEvent event) {
-
+        list_chats.getItems().remove(list_chats.getSelectionModel().getSelectedItem());
     }
 
     public ListView<Chat> getList_chats() {

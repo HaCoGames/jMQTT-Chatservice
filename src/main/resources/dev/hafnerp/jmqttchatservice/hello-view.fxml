@@ -31,18 +31,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="Chat">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#onDeleteChat" text="Delete" />
               <MenuItem mnemonicParsing="false" onAction="#onCreateChat" text="New" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem mnemonicParsing="false" onAction="#onDeleteChat" text="Delete" />
             </items>
           </Menu>
         </menus>
