@@ -7,20 +7,24 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
 
 public class Subscriber {
     private Exception exception = null;
 
     private MqttClient mqttClient;
 
+    private MqttConnectOptions mqttConnectOptions;
+
     private URI uri;
 
     public Subscriber(URI uri) {
         try {
-            System.out.println(uri.getHost());
             this.uri = uri;
+            String host = uri.getScheme() + "://" +  uri.getHost();
             mqttClient = new MqttClient(
-                    uri.getHost(),
+                    host,
                     MqttClient.generateClientId(),
                     new MemoryPersistence()
             );
@@ -28,11 +32,11 @@ public class Subscriber {
         catch (MqttException mqttException) {
             exception = mqttException;
         }
-
     }
 
     public void connect(MqttConnectOptions mqttConnectOptions) {
         try {
+            this.mqttConnectOptions = mqttConnectOptions;
             mqttClient.connect(mqttConnectOptions);
         }
         catch (MqttException mqttException) {
@@ -42,7 +46,6 @@ public class Subscriber {
 
     public void addIMqttMessageListener(IMqttMessageListener iMqttMessageListener) {
         try {
-            System.out.println(uri.getPath());
             mqttClient.subscribe(uri.getPath(), iMqttMessageListener);
         }
         catch (Exception e) {
@@ -61,5 +64,13 @@ public class Subscriber {
 
     public Exception getException() {
         return exception;
+    }
+
+    public URI getURI() throws URISyntaxException {
+        return new URI(uri.getRawSchemeSpecificPart());
+    }
+
+    public String getUsername() {
+        return Arrays.stream(uri.getPath().split("/")).toList().get(1);
     }
 }

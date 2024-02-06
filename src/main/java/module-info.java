@@ -6,6 +6,7 @@ module dev.hafnerp.jmqttchatservice {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires org.eclipse.paho.client.mqttv3;
+    requires java.desktop;
 
     opens dev.hafnerp.jmqttchatservice to javafx.fxml;
     exports dev.hafnerp.jmqttchatservice;

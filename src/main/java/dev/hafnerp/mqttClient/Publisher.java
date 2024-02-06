@@ -13,14 +13,16 @@ public class Publisher {
 
     private MqttClient mqttClient;
 
+    private MqttConnectOptions mqttConnectOptions;
+
     private URI uri;
 
     public Publisher(URI uri) {
         try {
             this.uri = uri;
-            System.out.println(uri.getHost());
+            String host = uri.getScheme() + "://" +  uri.getHost();
             mqttClient = new MqttClient(
-                    uri.getHost(),
+                    host,
                     MqttClient.generateClientId(),
                     new MemoryPersistence()
             );
@@ -33,6 +35,7 @@ public class Publisher {
 
     public void connect(MqttConnectOptions mqttConnectOptions) {
         try {
+            this.mqttConnectOptions = mqttConnectOptions;
             mqttClient.connect(mqttConnectOptions);
         }
         catch (MqttException mqttException) {
@@ -58,7 +61,21 @@ public class Publisher {
         }
     }
 
+    public String getUsername() {
+        return mqttConnectOptions.getUserName();
+    }
+
     public Exception getException() {
         return exception;
+    }
+
+    public URI getUri() {
+        try {
+            return new URI(uri.getSchemeSpecificPart());
+        }
+        catch (Exception e) {
+            exception = e;
+        }
+        return null;
     }
 }
